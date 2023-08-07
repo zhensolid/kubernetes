@@ -44,7 +44,7 @@ spec:
       name: default-http-backend # note ！！！ 指定 默认的backend服务
       port:
           number: 80
-  ingressClassName: nginx        # note ！！！重点 需要指定 哪个 IngressClass 可以看上面的 deploy.yaml 最后定义的
+  ingressClassName: nginx        # note ！！！重点 需要指定 哪个 IngressClass 可以看上面的 deploy-ingress-nginx-vmware.yaml 最后定义的
   rules:
   - host: tomcat.demo.com        # note 所有的  tomcat.demo.com请求都转发到  Service tomcat-demo
     http:
