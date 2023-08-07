@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  labels:
+    app: mysql
+spec:
+# type: NodePort                                     #指定公开端口
+  type: LoadBalancer                                 #指定公开端口，并且可以连接外网
+  ports:
+    - port: 3306
+      nodePort: 30001
+    # - port: 3307
+    #   nodePort: 30002
+  selector:
+    app: mysql
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: "mysql-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      nodeSelector:                                   #Pod 将只在localhost.localdomain节点上运行
+       kubernetes.io/hostname: localhost.localdomain  #Pod 将只在localhost.localdomain节点上运行
+      containers:
+      - name: mysql_5_7
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-pv
+          mountPath: /var/lib/mysql                   #容器地址
+      # - name: mysql_8
+      #   image: mysql:8
+      #   env:
+      #   - name: MYSQL_ROOT_PASSWORD
+      #     value: 19841122Cy!
+      #   ports:
+      #   - containerPort: 3307
+      #   volumeMounts:
+      #   - name: mysql-pv
+      #     mountPath: /var/lib/mysql                  #容器地址
+  volumeClaimTemplates:                               #每个 Pod 动态创建一个新的持久卷声明（Persistent Volume Claim，PVC）
+  - metadata:
+      name: mysql-pv
+    spec:
+      storageClassName: manual
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
