@@ -1,3 +1,5 @@
+#注意此版本是官方修改版，添加hostnetwork，nodeselector 需要配置node的label
+
 apiVersion: v1
 kind: Namespace
 metadata:
