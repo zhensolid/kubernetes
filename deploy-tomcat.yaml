@@ -25,11 +25,11 @@ metadata:
   name: tomcat-demo
 spec:
   selector:
-    app: tomcat-demo    #选择 tomcat-demo pod
+    app: tomcat-demo    #note选择 tomcat-demo pod
   ports:
-  - port: 80            #对外暴露 80 端口
+  - port: 80            #note对外暴露 80 端口
     protocol: TCP
-    targetPort: 8080    # tomcat 端口
+    targetPort: 8080    #notetomcat 端口
 
 
 ---
@@ -41,12 +41,12 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: default-http-backend #！！！ 指定 默认的backend服务
+      name: default-http-backend # note ！！！ 指定 默认的backend服务
       port:
           number: 80
-  ingressClassName: nginx #！！！重点 需要指定 哪个 IngressClass 可以看上面的 deploy.yaml 最后定义的
+  ingressClassName: nginx        # note ！！！重点 需要指定 哪个 IngressClass 可以看上面的 deploy.yaml 最后定义的
   rules:
-  - host: tomcat.demo.com #所有的  tomcat.demo.com请求都转发到  Service tomcat-demo
+  - host: tomcat.demo.com        # note 所有的  tomcat.demo.com请求都转发到  Service tomcat-demo
     http:
       paths:
       - pathType: Prefix

@@ -600,7 +600,7 @@ spec:
       serviceAccountName: ingress-nginx-admission
 ---
 apiVersion: networking.k8s.io/v1
-kind: IngressClass
+kind: IngressClass      #key 新参数
 metadata:
   labels:
     app.kubernetes.io/component: controller
