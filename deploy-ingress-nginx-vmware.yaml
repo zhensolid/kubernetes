@@ -416,8 +416,8 @@ spec:
         app.kubernetes.io/version: 1.8.1
     spec:
       hostNetwork: true # key 修改  ingress-nginx-controller 为 hostNetwork模式
-      nodeSelector:     # key 选择 node label 中有 app=ingress的节点进行部署
-        app: ingress    # key 给node添加的标签 kubectl label node kubec-node-2 app=ingress
+      nodeSelector:     # key 因为部署hostNetwork 必须选择 node label 中有 app=ingress的节点进行部署
+        app: ingress    # todo 给node添加的标签 kubectl label node kubec-node-2 app=ingress
       containers:
       - args:
         - /nginx-ingress-controller
