@@ -1,3 +1,4 @@
+#如果是本地需要IP地址防止host文件并指定域名tomcat.demo.com
 apiVersion: apps/v1
 kind: Deployment
 metadata:
