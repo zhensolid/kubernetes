@@ -3,38 +3,38 @@ kind: DaemonSet
 metadata:
   name: node-exporter # DaemonSet 的名称
 spec:
-  selector: # 选择器
-    matchLabels: # 匹配的lable
-      app: node-tag # 选择包含此名称的 Label 节点上部署 Pod守护进程
+  selector:           # 选择器
+    matchLabels:      # 匹配的lable
+      app: node-tag   # 选择包含此名称的 Label 节点上部署 Pod守护进程
   template:
     metadata:
       labels:
-        app: pod-tag # 为创建的 进入守护进程的所有Pod 设置 Label名称
+        app: pod-tag  # 为创建的 进入守护进程的所有Pod 设置 Label名称
     spec:
       containers:
       - name: node-exporter
         image: prom/node-exporter:v1.2.2 # 容器镜像名称及版本（Prometheus Node Exporter）
         ports:
         - name: http
-          containerPort: 9100 # 容器监听的端口号（Prometheus Node Exporter 的默认端口）
+          containerPort: 9100            # 容器监听的端口号（Prometheus Node Exporter 的默认端口）
         resources:
           limits:
-            cpu: 200m # 容器的 CPU 资源限制
-            memory: 200Mi # 容器的内存资源限制
+            cpu: 200m                    # 容器的 CPU 资源限制
+            memory: 200Mi                # 容器的内存资源限制
           requests:
-            cpu: 100m # 容器的 CPU 资源请求
-            memory: 100Mi # 容器的内存资源请求
+            cpu: 100m                    # 容器的 CPU 资源请求
+            memory: 100Mi                # 容器的内存资源请求
         securityContext:
-          runAsNonRoot: true # 以非 root 用户运行容器
-          readOnlyRootFilesystem: true # 将容器根文件系统设置为只读
+          runAsNonRoot: true             # 以非 root 用户运行容器
+          readOnlyRootFilesystem: true   # 将容器根文件系统设置为只读
         volumeMounts:
         - name: proc
-          mountPath: /host/proc # 宿主机的挂载路径（用于监控宿主机的 /proc 目录）
-          readOnly: true # 挂载为只读
+          mountPath: /host/proc         # 宿主机的挂载路径（用于监控宿主机的 /proc 目录）
+          readOnly: true                # 挂载为只读
       volumes:
       - name: proc
         hostPath:
-          path: /proc # 宿主机的目录路径（用于监控宿主机的 /proc 目录）
+          path: /proc                  # 宿主机的目录路径（用于监控宿主机的 /proc 目录）
 
 ---
 
@@ -57,25 +57,3 @@ metadata:
   namespace: default
 data:
   key: default
-
----
-
-# https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: IngressName
-  namespace: default
-spec:
-  rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ServiceName
-            port:
-              number: 80
