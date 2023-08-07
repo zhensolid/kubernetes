@@ -608,7 +608,7 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.8.1
-  name: nginx
+  name: nginx           #key Ingress-规则部署spec.ingressClassName需要指定
 spec:
   controller: k8s.io/ingress-nginx
 ---
