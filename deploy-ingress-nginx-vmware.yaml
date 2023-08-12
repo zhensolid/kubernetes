@@ -417,8 +417,8 @@ spec:
         app.kubernetes.io/part-of: ingress-nginx
         app.kubernetes.io/version: 1.8.1
     spec:
-      hostNetwork: true # key 修改  ingress-nginx-controller 为 hostNetwork模式
-      nodeSelector:     # key 因为部署hostNetwork 必须选择 node label 中有 app=ingress的节点进行部署
+      hostNetwork: true # key 修改  ingress-nginx-controller 为 hostNetwork模式 IP地址会使用node的IP地址
+      nodeSelector:     # todo 因为部署hostNetwork 必须选择 node label 中有 app=ingress的节点进行部署
         app: ingress    # todo 给node添加的标签 kubectl label node kubec-node-2 app=ingress
       containers:
       - args:
@@ -496,7 +496,7 @@ spec:
           name: webhook-cert
           readOnly: true
       dnsPolicy: ClusterFirst
-      nodeSelector:
+      NodeSelector:
         kubernetes.io/os: linux
       serviceAccountName: ingress-nginx
       terminationGracePeriodSeconds: 300
